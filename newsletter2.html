@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TMS Group - News & Articles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #001F3F;
+      --secondary-blue: #0061AF;
+      --accent-teal: #2BEBCB;
+      --light-bg: rgba(255, 255, 255, 0.96); /* Slightly transparent white */
+      --text-dark: #112344;
+      --text-light: #4a5568;
+      --white: #ffffff;
+      --border-color: #eaf0f4;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: var(--text-dark);
+    }
+    
+    /* --- VIDEO BACKGROUND --- */
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        overflow: hidden;
+    }
+
+    .video-background video {
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+
+    .video-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 20, 41, 0.5); /* Overlay to ensure text is readable */
+        z-index: -1;
+    }
+
+    .page-header {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header-logo {
+        max-width: 220px;
+        margin-top: 40px;
+        margin-left: 25px;
+        
+    }
+
+    .page-title {
+        font-size: 2.8em;
+        font-weight: 700;
+        color: var(--white);
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        margin: 0;
+    }
+
+    .page-tagline {
+        font-size: 1.2em;
+        font-weight: 400;
+        color: var(--accent-teal);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-top: 5px;
+    }
+
+    .main-container {
+      max-width: 850px;
+      margin: 0 auto 48px auto;
+      padding: 20px;
+    }
+    
+    /* --- ARTICLE CARD STYLING --- */
+    .article-item {
+        display: flex;
+        background: var(--light-bg);
+        border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .article-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(0, 31, 63, 0.15);
+    }
+    
+    .article-thumbnail {
+        flex: 0 0 220px; /* Fixed width for the image container */
+        overflow: hidden;
+    }
+
+    .article-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .article-text-content {
+        padding: 25px 30px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .article-item h2 {
+      font-size: 1.4em;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: var(--primary-blue);
+    }
+    
+    .article-title-link {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .article-title-link:hover h2 {
+        color: var(--secondary-blue);
+    }
+    
+    .article-meta {
+        font-size: 0.85em;
+        color: var(--text-light);
+        font-weight: 600;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+    }
+
+    .article-summary {
+      font-size: 1em;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1; /* Pushes button to the bottom */
+    }
+
+    .read-more-btn {
+      color: var(--secondary-blue);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      align-self: flex-start; /* Aligns button to the left */
+    }
+    
+    .read-more-btn:hover { color: var(--primary-blue); }
+    .full-article-content { display: none; }
+    
+    /* --- SINGLE ARTICLE VIEW --- */
+    #singleArticleView {
+        background: var(--light-bg);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    #singleArticleView h2 { font-size: 2.2em; color: var(--primary-blue); }
+    
+    .full-article-hero {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 15px 0 30px 0;
+    }
+    
+    .full-article-body h3 {
+        color: var(--primary-blue);
+        font-size: 1.4em;
+        margin-top: 25px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid var(--accent-teal);
+    }
+    
+    .full-article-body p {
+        font-size: 1.1em;
+        line-height: 1.8;
+        color: var(--text-dark);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .back-to-list {
+        display: inline-block;
+        margin-top: 30px;
+        font-weight: 600;
+        color: var(--secondary-blue);
+        cursor: pointer;
+        text-decoration: none;
+        border-bottom: 2px solid var(--accent-teal);
+        padding-bottom: 2px;
+    }
+    .back-to-list:hover { color: var(--primary-blue); }
+
+    /* --- FOOTER (Same video footer) --- */
+    footer {
+        position: relative; padding: 60px 20px; text-align: center;
+        color: var(--white); overflow: hidden; min-height: 150px;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    #footer-video {
+        position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
+        object-fit: cover; transform: translate(-50%, -50%); z-index: 0;
+    }
+    .footer-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 31, 63, 0.7); z-index: 1;
+    }
+    .footer-content { position: relative; z-index: 2; }
+    .footer-contacts { margin-top: 15px; color: var(--accent-teal); font-size: 0.95em; line-height: 1.5; }
+
+    /* --- RESPONSIVE ADJUSTMENTS --- */
+    @media (max-width: 768px) {
+      .article-item { flex-direction: column; }
+      .article-thumbnail { flex-basis: 180px; } /* Fixed height on mobile */
+      .page-title { font-size: 2.2em; }
+      .main-container, #singleArticleView { padding: 15px; }
+      #singleArticleView h2 { font-size: 1.8em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-background">
+      <div class="video-overlay"></div>
+      <video playsinline autoplay muted loop>
+          <!-- IMPORTANT: Replace with a calming sea video. Low-res videos work best for performance -->
+          <source src="sea2.mp4" type="video/mp4">
+      </video>
+  </div>
+
+  <img src="logo.svg" alt="TMS Group Logo" class="header-logo">
+
+  <header class="page-header">
+      <h1 class="page-title">News & Articles</h1>
+      <p class="page-tagline">Rising Above the Ordinary</p>
+  </header>
+
+  <main class="main-container">
+      <section id="articlesListView">
+        
+        <!-- Article 1 -->
+        <div class="article-item" data-article-id="1" data-image-src="cover2.jpg">
+            <div class="article-thumbnail">
+                <img src="cover2.jpg" alt="Dolphins underwater">
+            </div>
+            <div class="article-text-content">
+                <a class="article-title-link" onclick="showArticle(1)"><h2>Η Κλιματική αλλαγή και οι Επιπτώσεις της στη Ναυτιλία</h2></a>
+                <div class="article-meta">Ιούλιος 2025</div>
+                <p class="article-summary">Η κλιματική αλλαγή, έρχεται να ανατρέψει τα δεδομένα αιώνων, επηρεάζοντας δραματικά τις θαλάσσιες μεταφορές...</p>
+                <a onclick="showArticle(1)" class="read-more-btn">Read Full Article →</a>
+                <div class="full-article-content">
+                    <p>Η αύξηση της θερμοκρασίας προκαλεί έντονα καιρικά φαινόμενα που θέτουν σε κίνδυνο την ασφάλεια των πλοίων...</p>
+                    <h3>Άνοδος της στάθμης στα λιμάνια</h3>
+                    <p>Η συνεχής άνοδος της στάθμης της θάλασσας απειλεί τις λιμενικές υποδομές παγκοσμίως...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="article-item" data-article-id="2" data-image-src="cover.jpg">
+            <div class="article-thumbnail">
+                <img src="cover.jpg" alt="Smart Port with crane">
+            </div>
+            <div class="article-text-content">
+                <a class="article-title-link" onclick="showArticle(2)"><h2>Η Ψηφιακή Μεταμόρφωση των Λιμένων: Smart Ports</h2></a>
+                <div class="article-meta">Ιούνιος 2025</div>
+                <p class="article-summary">Η τεχνολογία IoT, η Τεχνητή Νοημοσύνη και το blockchain αλλάζουν ριζικά τον τρόπο λειτουργίας των λιμένων...</p>
+                <a onclick="showArticle(2)" class="read-more-btn">Read Full Article →</a>
+                <div class="full-article-content"><p>Η ενσωμάτωση αισθητήρων IoT για την παρακολούθηση των εμπορευματοκιβωτίων σε πραγματικό χρόνο οδηγεί σε Έξυπνα Λιμάνια...</p></div>
+            </div>
+        </div>
+
+        <!-- ADD MORE ARTICLE ITEMS HERE following the same structure -->
+        
+      </section>
+
+      <section id="singleArticleView" style="display: none;">
+        <!-- Content will be injected here by JavaScript -->
+      </section>
+  </main>
+
+  <footer>
+    <div class="footer-overlay"></div>
+    <video playsinline autoplay muted loop id="footer-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-blue-ocean-with-underwater-sun-rays-4361-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="footer-content">
+        © 2025 TMS Group. All rights reserved.<br>
+        <div class="footer-contacts">
+          Cyprus: cyprus@tmsgroupeu.com | Greece: greece@tmsgroupeu.com | Egypt: egypt@tmsgroupeu.com
+        </div>
+    </div>
+  </footer>
+
+  <script>
+      const articlesListView = document.getElementById('articlesListView');
+      const singleArticleView = document.getElementById('singleArticleView');
+
+      function showArticle(articleId) {
+          const articleSource = articlesListView.querySelector(`.article-item[data-article-id='${articleId}']`);
+          
+          if (articleSource) {
+              const title = articleSource.querySelector('h2').innerHTML;
+              const meta = articleSource.querySelector('.article-meta').innerHTML;
+              const content = articleSource.querySelector('.full-article-content').innerHTML;
+              const imageSrc = articleSource.getAttribute('data-image-src');
+
+              singleArticleView.innerHTML = `
+                  <h2>${title}</h2>
+                  <div class="article-meta">${meta}</div>
+                  <img src="${imageSrc}" alt="${title}" class="full-article-hero">
+                  <div class="full-article-body">
+                      ${content}
+                  </div>
+                  <a onclick="showList()" class="back-to-list">← Back to All Articles</a>
+              `;
+
+              articlesListView.style.display = 'none';
+              singleArticleView.style.display = 'block';
+              
+              window.scrollTo({ top: document.querySelector('.main-container').offsetTop - 20, behavior: 'smooth' });
+          }
+      }
+
+      function showList() {
+          singleArticleView.style.display = 'none';
+          articlesListView.style.display = 'block';
+          singleArticleView.innerHTML = '';
+          window.scrollTo({ top: document.querySelector('.main-container').offsetTop - 20, behavior: 'smooth' });
+      }
+  </script>
+
+</body>
+</html>
