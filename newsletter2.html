@@ -6,355 +6,205 @@
   <title>TMS Group - News & Articles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-blue: #001F3F;
       --secondary-blue: #0061AF;
       --accent-teal: #2BEBCB;
-      --light-bg: rgba(255, 255, 255, 0.96); /* Slightly transparent white */
+      --light-bg: rgba(255, 255, 255, 0.96);
       --text-dark: #112344;
       --text-light: #4a5568;
       --white: #ffffff;
-      --border-color: #eaf0f4;
     }
 
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       color: var(--text-dark);
+      background-color: var(--primary-blue);
     }
     
-    /* --- VIDEO BACKGROUND --- */
     .video-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -2;
-        overflow: hidden;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -2; overflow: hidden;
     }
-
     .video-background video {
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        object-fit: cover;
+        min-width: 100%; min-height: 100%; width: auto; height: auto;
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%); object-fit: cover;
     }
-
     .video-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 20, 41, 0.5); /* Overlay to ensure text is readable */
-        z-index: -1;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 20, 41, 0.5); z-index: -1;
     }
-
+    
     .page-header {
-      padding: 40px 20px;
-      text-align: center;
+      width: 100%; padding: 15px 0; background-color: rgba(0, 31, 63, 0.85);
+      backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid rgba(43, 235, 203, 0.2);
     }
-
-    .header-logo {
-        max-width: 220px;
-        margin-top: 40px;
-        margin-left: 25px;
-        
+    .header-logo-container {
+        flex: 1 1 0; display: flex; justify-content: flex-start; padding-left: 30px;
     }
-
+    .header-logo { max-width: 180px; height: auto; }
+    .page-title-container { flex: 2 1 0; text-align: center; overflow: hidden; }
+    
     .page-title {
-        font-size: 2.8em;
-        font-weight: 700;
-        color: var(--white);
-        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        margin: 0;
+        font-family: 'Montserrat', sans-serif; font-size: 1.8em; font-weight: 600;
+        color: var(--white); text-shadow: 0 1px 3px rgba(0,0,0,0.2); margin: 0;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
-    .page-tagline {
-        font-size: 1.2em;
-        font-weight: 400;
-        color: var(--accent-teal);
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-top: 5px;
-    }
-
+    
+    .header-spacer { flex: 1 1 0; }
     .main-container {
-      max-width: 850px;
-      margin: 0 auto 48px auto;
-      padding: 20px;
+      max-width: 850px; margin: 40px auto 48px auto; padding: 20px;
     }
     
-    /* --- ARTICLE CARD STYLING --- */
     .article-item {
-        display: flex;
-        background: var(--light-bg);
-        border-radius: 12px;
-        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
-        margin-bottom: 30px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex; background: var(--light-bg); border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1); margin-bottom: 30px;
+        overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    .article-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 35px rgba(0, 31, 63, 0.15);
-    }
+    .article-item:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0, 31, 63, 0.15); }
+    .article-thumbnail { flex: 0 0 220px; overflow: hidden; }
+    .article-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+    .article-text-content { padding: 25px 30px; display: flex; flex-direction: column; }
     
-    .article-thumbnail {
-        flex: 0 0 220px; /* Fixed width for the image container */
-        overflow: hidden;
-    }
-
-    .article-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+    .article-item h2 { font-size: 1.4em; font-weight: 700; margin: 0 0 8px 0; color: var(--primary-blue); }
     
-    .article-text-content {
-        padding: 25px 30px;
-        display: flex;
-        flex-direction: column;
-    }
+    .article-title-link { text-decoration: none; color: inherit; cursor: pointer; }
+    .article-title-link:hover h2 { color: var(--secondary-blue); }
     
-    .article-item h2 {
-      font-size: 1.4em;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-      color: var(--primary-blue);
-    }
-    
-    .article-title-link {
-        text-decoration: none;
-        color: inherit;
-        cursor: pointer;
-    }
-
-    .article-title-link:hover h2 {
-        color: var(--secondary-blue);
-    }
-    
-    .article-meta {
-        font-size: 0.85em;
-        color: var(--text-light);
-        font-weight: 600;
-        margin-bottom: 12px;
-        text-transform: uppercase;
-    }
-
-    .article-summary {
-      font-size: 1em;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      flex-grow: 1; /* Pushes button to the bottom */
-    }
-
-    .read-more-btn {
-      color: var(--secondary-blue);
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      align-self: flex-start; /* Aligns button to the left */
-    }
-    
+    .article-meta { font-size: 0.85em; color: var(--text-light); font-weight: 600; margin-bottom: 12px; text-transform: uppercase; }
+    .article-summary { font-size: 1em; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+    .read-more-btn { color: var(--secondary-blue); font-weight: 700; text-decoration: none; cursor: pointer; align-self: flex-start; }
     .read-more-btn:hover { color: var(--primary-blue); }
     .full-article-content { display: none; }
     
-    /* --- SINGLE ARTICLE VIEW --- */
     #singleArticleView {
-        background: var(--light-bg);
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
-        animation: fadeIn 0.5s ease-in-out;
+        background: var(--light-bg); padding: 40px; border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1); animation: fadeIn 0.5s ease-in-out;
     }
-
     #singleArticleView h2 { font-size: 2.2em; color: var(--primary-blue); }
-    
-    .full-article-hero {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin: 15px 0 30px 0;
-    }
-    
-    .full-article-body h3 {
-        color: var(--primary-blue);
-        font-size: 1.4em;
-        margin-top: 25px;
-        padding-bottom: 5px;
-        border-bottom: 2px solid var(--accent-teal);
-    }
-    
-    .full-article-body p {
-        font-size: 1.1em;
-        line-height: 1.8;
-        color: var(--text-dark);
-    }
-
+    .full-article-hero { width: 100%; height: auto; border-radius: 8px; margin: 15px 0 30px 0; }
+    .full-article-body h3 { color: var(--primary-blue); font-size: 1.4em; margin-top: 25px; padding-bottom: 5px; border-bottom: 2px solid var(--accent-teal); }
+    .full-article-body p { font-size: 1.1em; line-height: 1.8; color: var(--text-dark); }
+    .full-article-body ul { font-size: 1.1em; line-height: 1.8; padding-left: 20px; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    .back-to-list {
-        display: inline-block;
-        margin-top: 30px;
-        font-weight: 600;
-        color: var(--secondary-blue);
-        cursor: pointer;
-        text-decoration: none;
-        border-bottom: 2px solid var(--accent-teal);
-        padding-bottom: 2px;
-    }
+    .back-to-list { display: inline-block; margin-top: 30px; font-weight: 600; color: var(--secondary-blue); cursor: pointer; text-decoration: none; border-bottom: 2px solid var(--accent-teal); padding-bottom: 2px; }
     .back-to-list:hover { color: var(--primary-blue); }
 
-    /* --- FOOTER (Same video footer) --- */
-    footer {
-        position: relative; padding: 60px 20px; text-align: center;
-        color: var(--white); overflow: hidden; min-height: 150px;
-        display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    #footer-video {
-        position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
-        object-fit: cover; transform: translate(-50%, -50%); z-index: 0;
-    }
-    .footer-overlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0, 31, 63, 0.7); z-index: 1;
-    }
+    footer { position: relative; padding: 40px 20px; text-align: center; color: var(--white); overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    #footer-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
+    .footer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 31, 63, 0.7); z-index: 1; }
     .footer-content { position: relative; z-index: 2; }
+    .footer-tagline { font-family: 'Montserrat', sans-serif; font-size: 1.2em; font-weight: 400; color: var(--accent-teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
     .footer-contacts { margin-top: 15px; color: var(--accent-teal); font-size: 0.95em; line-height: 1.5; }
 
-    /* --- RESPONSIVE ADJUSTMENTS --- */
     @media (max-width: 768px) {
-      .article-item { flex-direction: column; }
-      .article-thumbnail { flex-basis: 180px; } /* Fixed height on mobile */
-      .page-title { font-size: 2.2em; }
-      .main-container, #singleArticleView { padding: 15px; }
-      #singleArticleView h2 { font-size: 1.8em; }
+      .header-logo-container { padding-left: 15px; } .header-spacer { padding-right: 15px; } .page-title { font-size: 1.2em; } .main-container, #singleArticleView { padding: 15px; } #singleArticleView h2 { font-size: 1.8em; } .article-item { flex-direction: column; } .article-thumbnail { flex-basis: 180px; }
     }
   </style>
 </head>
 <body>
-
-  <div class="video-background">
-      <div class="video-overlay"></div>
-      <video playsinline autoplay muted loop>
-          <!-- IMPORTANT: Replace with a calming sea video. Low-res videos work best for performance -->
-          <source src="sea2.mp4" type="video/mp4">
-      </video>
+  <div class="video-background"><div class="video-overlay"></div>
+    <!-- ADDED id="bg-video" TO THE MAIN VIDEO -->
+    <video playsinline autoplay muted loop id="bg-video">
+        <source src="sea2.mp4" type="video/mp4">
+    </video>
   </div>
-
-  <img src="logo.svg" alt="TMS Group Logo" class="header-logo">
-
   <header class="page-header">
-      <h1 class="page-title">News & Articles</h1>
-      <p class="page-tagline">Rising Above the Ordinary</p>
+    <div class="header-logo-container"><img src="logo.svg" alt="TMS Group Logo" class="header-logo"></div>
+    <div class="page-title-container"><h1 class="page-title" id="headerTitle">News & Articles</h1></div>
+    <div class="header-spacer"></div>
   </header>
-
   <main class="main-container">
       <section id="articlesListView">
         
-        <!-- Article 1 -->
-        <div class="article-item" data-article-id="1" data-image-src="cover2.jpg">
-            <div class="article-thumbnail">
-                <img src="cover2.jpg" alt="Dolphins underwater">
-            </div>
+        <div class="article-item" data-article-id="1" data-image-src="cover1.jpg">
+            <div class="article-thumbnail"><img src="cover1.jpg" alt="Impact on Shipping"></div>
             <div class="article-text-content">
                 <a class="article-title-link" onclick="showArticle(1)"><h2>Η Κλιματική αλλαγή και οι Επιπτώσεις της στη Ναυτιλία</h2></a>
                 <div class="article-meta">Ιούλιος 2025</div>
-                <p class="article-summary">Η κλιματική αλλαγή, έρχεται να ανατρέψει τα δεδομένα αιώνων, επηρεάζοντας δραματικά τις θαλάσσιες μεταφορές...</p>
+                <p class="article-summary">Η ναυτιλία είναι η «ραχοκοκαλιά» του παγκόσμιου εμπορίου. Η κλιματική αλλαγή, έρχεται όμως να ανατρέψει τα δεδομένα αιώνων...</p>
                 <a onclick="showArticle(1)" class="read-more-btn">Read Full Article →</a>
                 <div class="full-article-content">
-                    <p>Η αύξηση της θερμοκρασίας προκαλεί έντονα καιρικά φαινόμενα που θέτουν σε κίνδυνο την ασφάλεια των πλοίων...</p>
+                    <p>Η ναυτιλία είναι η «ραχοκοκαλιά» του παγκόσμιου εμπορίου, αφού το περισσότερο από το 80% των αγαθών, διακινείται μέσω θαλάσσης. Η κλιματική αλλαγή, έρχεται όμως να ανατρέψει τα δεδομένα αιώνων, επηρεάζοντας δραματικά τις θαλάσσιες μεταφορές. Από τις αυξανόμενες θερμοκρασίες μέχρι την άνοδο της στάθμης της θάλασσας, και την τήξη των πολικών πάγων, οι αλλαγές στο περιβάλλον έχουν άμεσο και έμμεσο αντίκτυπο, στη ναυτιλιακή βιομηχανία.</p>
+                    <p>Η αύξηση της θερμοκρασίας του πλανήτη προκαλεί πιο συχνά και πιο έντονα καιρικά φαινόμενα, όπως καταιγίδες, κυκλώνες και τυφώνες. Αυτές οι συνθήκες θέτουν σε κίνδυνο τόσο την ασφάλεια των πληρωμάτων στα πλοία, όσο και την ακεραιότητα των φορτίων και των πλοίων. Οι απρόβλεπτες θαλάσσιες συνθήκες αναγκάζουν τις εταιρείες να επανασχεδιάσουν δρομολόγια, συχνά με αυξημένο κόστος.</p>
                     <h3>Άνοδος της στάθμης στα λιμάνια</h3>
-                    <p>Η συνεχής άνοδος της στάθμης της θάλασσας απειλεί τις λιμενικές υποδομές παγκοσμίως...</p>
+                    <p>Η συνεχής άνοδος της στάθμης της θάλασσας απειλεί τις λιμενικές υποδομές παγκοσμίως. Πλημμύρες, διάβρωση των ακτών και και καταστροφή εγκαταστάσεων είναι πλέον όλο και πιο συχνές, με αποτέλεσμα την ανάγκη για μεγάλες επενδύσεις σε μέτρα προστασίας και ενίσχυσης των λιμανιών.</p>
+                    <h3>Νέες Προκλήσεις και Ευκαιρίες</h3>
+                    <ul><li>Αλλαγές σε ρεύματα και ανέμους</li><li>Νέες θαλάσσιες διαδρομές</li><li>Πράσινη μετάβαση και τεχνολογική καινοτομία</li></ul>
+                    <h3>Συμπεράσματα</h3>
+                    <p>Η κλιματική αλλαγή δεν είναι απλώς μια περιβαλλοντική πρόκληση είναι ένας παράγοντας που διαμορφώνει ήδη το μέλλον της ναυτιλίας. Η προσαρμογή δεν είναι επιλογή, αλλά αναγκαιότητα. Η μετάβαση προς μια βιώσιμη και ανθεκτική και τεχνολογικά εξοπλισμένη ναυτιλία μπορεί να αποτελέσει εκτός από αντιμετώπιση της περιβαλλοντικής κρίσης και μια νέα σελίδα στην ναυτιλιακή βιομηχανία.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Article 2 -->
-        <div class="article-item" data-article-id="2" data-image-src="cover.jpg">
-            <div class="article-thumbnail">
-                <img src="cover.jpg" alt="Smart Port with crane">
-            </div>
-            <div class="article-text-content">
-                <a class="article-title-link" onclick="showArticle(2)"><h2>Η Ψηφιακή Μεταμόρφωση των Λιμένων: Smart Ports</h2></a>
-                <div class="article-meta">Ιούνιος 2025</div>
-                <p class="article-summary">Η τεχνολογία IoT, η Τεχνητή Νοημοσύνη και το blockchain αλλάζουν ριζικά τον τρόπο λειτουργίας των λιμένων...</p>
-                <a onclick="showArticle(2)" class="read-more-btn">Read Full Article →</a>
-                <div class="full-article-content"><p>Η ενσωμάτωση αισθητήρων IoT για την παρακολούθηση των εμπορευματοκιβωτίων σε πραγματικό χρόνο οδηγεί σε Έξυπνα Λιμάνια...</p></div>
-            </div>
-        </div>
-
-        <!-- ADD MORE ARTICLE ITEMS HERE following the same structure -->
+        <div class="article-item" data-article-id="2" data-image-src="cover2.jpg"><div class="article-thumbnail"><img src="cover2.jpg" alt="Smart Port"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(2)"><h2>Η Ψηφιακή Μεταμόρφωση των Λιμένων: Smart Ports</h2></a><div class="article-meta">Ιούνιος 2025</div><p class="article-summary">Η τεχνολογία IoT και η Τεχνητή Νοημοσύνη αλλάζουν ριζικά τον τρόπο λειτουργίας των λιμένων, οδηγώντας σε αυξημένη αποδοτικότητα...</p><a onclick="showArticle(2)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Η ενσωμάτωση αισθητήρων για την παρακολούθηση των εμπορευματοκιβωτίων οδηγεί σε Έξυπνα Λιμάνια. Placeholder full article text.</p></div></div></div>
+        <div class="article-item" data-article-id="3" data-image-src="cover3.jpg"><div class="article-thumbnail"><img src="cover3.jpg" alt="Cybersecurity Shield"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(3)"><h2>Ασφάλεια στον Κυβερνοχώρο: Προστατεύοντας τα Πλοία</h2></a><div class="article-meta">Μάιος 2025</div><p class="article-summary">Καθώς τα πλοία γίνονται πιο συνδεδεμένα, οι κίνδυνοι από κυβερνοεπιθέσεις αυξάνονται. Η προστασία είναι υψίστης σημασίας...</p><a onclick="showArticle(3)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Η πολυεπίπεδη ασφάλεια και η συνεχής εκπαίδευση του πληρώματος είναι απαραίτητα για την θωράκιση του στόλου. Placeholder text.</p></div></div></div>
+        <div class="article-item" data-article-id="4" data-image-src="cover4.jpg"><div class="article-thumbnail"><img src="cover4.jpg" alt="Green fuel ship"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(4)"><h2>Εναλλακτικά Καύσιμα: Η Μετάβαση σε LNG & Υδρογόνο</h2></a><div class="article-meta">Απρίλιος 2025</div><p class="article-summary">Η απανθρακοποίηση της ναυτιλίας είναι η μεγαλύτερη πρόκληση. Εξετάζουμε τα πλεονεκτήματα των πράσινων καυσίμων...</p><a onclick="showArticle(4)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Ο δρόμος προς τη βιωσιμότητα απαιτεί τεράστιες επενδύσεις σε νέες τεχνολογίες. Placeholder text for full article content.</p></div></div></div>
+        <div class="article-item" data-article-id="5" data-image-src="cover5.jpg"><div class="article-thumbnail"><img src="cover5.jpg" alt="Underwater pipeline"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(5)"><h2>TMS Oil & Gas: Καινοτομίες στην Υποθαλάσσια Επισκευή Αγωγών</h2></a><div class="article-meta">Μάρτιος 2025</div><p class="article-summary">Νέες τεχνικές για την επισκευή αγωγών σε μεγάλα βάθη, διασφαλίζοντας την ακεραιότητα των ενεργειακών υποδομών...</p><a onclick="showArticle(5)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Με τη χρήση ROV τελευταίας τεχνολογίας, η TMS Group προσφέρει λύσεις που μειώνουν το κόστος. Placeholder full text.</p></div></div></div>
+        <div class="article-item" data-article-id="6" data-image-src="cover6.jpg"><div class="article-thumbnail"><img src="cover6.jpg" alt="Ship crew"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(6)"><h2>Η Σημασία της Διαχείρισης Πληρωμάτων στη Ναυτιλία</h2></a><div class="article-meta">Φεβρουάριος 2025</div><p class="article-summary">Το ανθρώπινο δυναμικό παραμένει ο ακρογωνιαίος λίθος της επιτυχίας. Η ευημερία και η εκπαίδευση είναι κρισιμότερη από ποτέ...</p><a onclick="showArticle(6)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Προγράμματα ψυχικής υγείας και συνεχής κατάρτιση συμβάλλουν στην αύξηση της παραγωγικότητας. Placeholder text.</p></div></div></div>
+        <div class="article-item" data-article-id="7" data-image-src="cover7.jpg"><div class="article-thumbnail"><img src="cover7.jpg" alt="IMO Regulations document"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(7)"><h2>Νέοι Κανονισμοί IMO: Τι Πρέπει να Γνωρίζουν οι Πλοιοκτήτες</h2></a><div class="article-meta">Ιανουάριος 2025</div><p class="article-summary">Οι επερχόμενες αλλαγές στους διεθνείς κανονισμούς θα επηρεάσουν τη λειτουργία όλων των πλοίων. Η προετοιμασία είναι το κλειδί...</p><a onclick="showArticle(7)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Οι νέοι δείκτες ενεργειακής απόδοσης θα απαιτήσουν τεχνολογικές αναβαθμίσεις. Full content placeholder text here.</p></div></div></div>
+        <div class="article-item" data-article-id="8" data-image-src="cover8.jpg"><div class="article-thumbnail"><img src="cover8.jpg" alt="Route optimization map"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(8)"><h2>Βελτιστοποίηση Δρομολογίων μέσω AI: Μειώνοντας Κόστος</h2></a><div class="article-meta">Δεκέμβριος 2024</div><p class="article-summary">Πλατφόρμες που αξιοποιούν την AI για την ανάλυση καιρικών συνθηκών προσφέρουν δυναμική βελτιστοποίηση των δρομολογίων...</p><a onclick="showArticle(8)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Η εξοικονόμηση καυσίμων που μπορεί να επιτευχθεί φτάνει έως και το 10%, μειώνοντας άμεσα το λειτουργικό κόστος. Full content.</p></div></div></div>
+        <div class="article-item" data-article-id="9" data-image-src="cover9.jpg"><div class="article-thumbnail"><img src="cover9.jpg" alt="Engine room equipment"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(9)"><h2>Total Marine Services: Παροχή Εξοπλισμού Αιχμής</h2></a><div class="article-meta">Νοέμβριος 2024</div><p class="article-summary">Ως μέλος του TMS Group, η Total Marine Services προσφέρει γνήσια ανταλλακτικά και εξοπλισμό OEM για κάθε τύπο πλοίου...</p><a onclick="showArticle(9)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Από μηχανές και ηλεκτρονικά συστήματα ελέγχου, η δέσμευσή μας είναι η παροχή λύσεων υψηλής ποιότητας. Full text placeholder.</p></div></div></div>
+        <div class="article-item" data-article-id="10" data-image-src="cover10.jpg"><div class="article-thumbnail"><img src="cover10.jpg" alt="TMS Group historical photo"></div><div class="article-text-content"><a class="article-title-link" onclick="showArticle(10)"><h2>Από ένα Πλοίο σε Παγκόσμιο Όμιλο: Η Ιστορία της TMS</h2></a><div class="article-meta">Οκτώβριος 2024</div><p class="article-summary">Κοιτάζοντας πίσω στο ταξίδι μας από το 1991, γιορτάζουμε τις αξίες της αφοσίωσης, της εμπειρίας και της καινοτομίας...</p><a onclick="showArticle(10)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Ο όμιλος TMS έχει εξελιχθεί σε έναν πολυδιάστατο οργανισμό που προσφέρει ένα ολοκληρωμένο φάσμα υπηρεσιών. Placeholder.</p></div></div></div>
         
       </section>
-
-      <section id="singleArticleView" style="display: none;">
-        <!-- Content will be injected here by JavaScript -->
-      </section>
+      <section id="singleArticleView" style="display: none;"></section>
   </main>
-
   <footer>
     <div class="footer-overlay"></div>
-    <video playsinline autoplay muted loop id="footer-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-blue-ocean-with-underwater-sun-rays-4361-large.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <video playsinline autoplay muted loop id="footer-video"><source src="https://assets.mixkit.co/videos/preview/mixkit-blue-ocean-with-underwater-sun-rays-4361-large.mp4"></video>
     <div class="footer-content">
+        <div class="footer-tagline">Rising Above the Ordinary</div>
         © 2025 TMS Group. All rights reserved.<br>
         <div class="footer-contacts">
           Cyprus: cyprus@tmsgroupeu.com | Greece: greece@tmsgroupeu.com | Egypt: egypt@tmsgroupeu.com
         </div>
     </div>
   </footer>
-
   <script>
+      // --- ADDED VIDEO SPEED CONTROLS ---
+      // Sets the playback speed of the background videos. 1 is normal, 0.5 is half-speed.
+      document.getElementById('bg-video').playbackRate = 0.50;
+      document.getElementById('footer-video').playbackRate = 0.75;
+      // --- END OF VIDEO SPEED CONTROLS ---
+
       const articlesListView = document.getElementById('articlesListView');
       const singleArticleView = document.getElementById('singleArticleView');
-
+      const headerTitle = document.getElementById('headerTitle');
+      
       function showArticle(articleId) {
           const articleSource = articlesListView.querySelector(`.article-item[data-article-id='${articleId}']`);
-          
           if (articleSource) {
-              const title = articleSource.querySelector('h2').innerHTML;
+              const titleText = articleSource.querySelector('h2').textContent;
               const meta = articleSource.querySelector('.article-meta').innerHTML;
               const content = articleSource.querySelector('.full-article-content').innerHTML;
               const imageSrc = articleSource.getAttribute('data-image-src');
-
+              headerTitle.textContent = titleText;
               singleArticleView.innerHTML = `
-                  <h2>${title}</h2>
+                  <h2 style="font-family: 'Poppins', sans-serif;">${titleText}</h2>
                   <div class="article-meta">${meta}</div>
-                  <img src="${imageSrc}" alt="${title}" class="full-article-hero">
-                  <div class="full-article-body">
-                      ${content}
-                  </div>
+                  <img src="${imageSrc}" alt="${titleText}" class="full-article-hero">
+                  <div class="full-article-body">${content}</div>
                   <a onclick="showList()" class="back-to-list">← Back to All Articles</a>
               `;
-
               articlesListView.style.display = 'none';
               singleArticleView.style.display = 'block';
-              
-              window.scrollTo({ top: document.querySelector('.main-container').offsetTop - 20, behavior: 'smooth' });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
           }
       }
-
       function showList() {
+          headerTitle.textContent = 'News & Articles';
           singleArticleView.style.display = 'none';
           articlesListView.style.display = 'block';
           singleArticleView.innerHTML = '';
-          window.scrollTo({ top: document.querySelector('.main-container').offsetTop - 20, behavior: 'smooth' });
       }
   </script>
-
 </body>
 </html>
