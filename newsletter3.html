@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TMS Group - News & Articles (Alternative Design)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Interactive Gradient Colors controlled by JS */
+      --grad-color-1: #001f3f; 
+      --grad-color-2: #0061af;
+
+      --primary-blue: #001F3F;
+      --secondary-blue: #0061AF;
+      --accent-teal: #2BEBCB;
+      --light-bg: rgba(255, 255, 255, 0.98);
+      --text-dark: #112344;
+      --text-light: #4a5568;
+      --white: #ffffff;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, var(--grad-color-1), var(--grad-color-2));
+      transition: background 0.5s ease-out;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .page-header {
+      width: 100%; padding: 15px 0; background-color: rgba(0, 31, 63, 0.85);
+      backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 1000;
+      border-bottom: 1px solid rgba(43, 235, 203, 0.2);
+    }
+    .header-logo-container { flex: 1 1 0; display: flex; justify-content: flex-start; padding-left: 30px; }
+    .header-logo { max-width: 180px; height: auto; }
+    .page-title-container { flex: 2 1 0; text-align: center; overflow: hidden; padding: 0 15px; }
+    .page-title {
+        font-family: 'Montserrat', sans-serif; font-size: 1.8em; font-weight: 600;
+        color: var(--white); text-shadow: 0 1px 3px rgba(0,0,0,0.2); margin: 0;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .header-spacer { flex: 1 1 0; }
+
+    .main-container { max-width: 1200px; margin: 40px auto 48px auto; padding: 0 20px; }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .article-card {
+        background: var(--light-bg); border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
+        overflow: hidden; display: flex; flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .article-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0, 31, 63, 0.15); }
+    .card-thumbnail { height: 220px; width: 100%; overflow: hidden; }
+    .card-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+    .card-text-content { padding: 25px 30px; display: flex; flex-direction: column; flex-grow: 1; }
+    .article-card h2 { font-size: 1.4em; font-weight: 700; line-height: 1.4; margin: 0 0 8px 0; color: var(--primary-blue); }
+    .article-card .article-meta { font-size: 0.85em; color: var(--text-light); font-weight: 600; margin-bottom: 15px; text-transform: uppercase; }
+    .article-card .article-summary { font-size: 1em; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; }
+    .read-more-btn { color: var(--secondary-blue); font-weight: 700; text-decoration: none; cursor: pointer; align-self: flex-start; }
+    .read-more-btn:hover { color: var(--primary-blue); }
+    .full-article-content { display: none; }
+    
+    .featured-article { grid-column: 1 / -1; }
+    @media (min-width: 769px) {
+        .featured-article { flex-direction: row; }
+        .featured-article .card-thumbnail { height: auto; flex-basis: 40%; }
+        .featured-article .card-text-content { padding: 40px; }
+        .featured-article h2 { font-size: 1.8em; }
+    }
+    
+    #singleArticleView {
+      background: var(--light-bg); padding: 50px; border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0, 31, 63, 0.1);
+      max-width: 900px; margin: 40px auto;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .article-title-full { font-family: 'Poppins', sans-serif; font-size: 2.4em; color: var(--primary-blue); font-weight: 700; line-height: 1.3; }
+    .full-article-hero { width: 100%; height: auto; border-radius: 8px; margin: 20px 0 30px 0; }
+    .full-article-body h3 { color: var(--primary-blue); font-size: 1.5em; margin-top: 30px; padding-bottom: 8px; border-bottom: 2px solid var(--accent-teal); }
+    .full-article-body p { font-size: 1.1em; line-height: 1.8; color: var(--text-dark); margin: 1.2em 0; }
+    .full-article-body ul { font-size: 1.1em; line-height: 1.8; padding-left: 25px; margin: 1.2em 0; }
+    .full-article-body li { margin-bottom: 0.8em; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .back-to-list { display: inline-block; margin-top: 30px; font-weight: 600; color: var(--secondary-blue); cursor: pointer; text-decoration: none; border-bottom: 2px solid var(--accent-teal); padding-bottom: 3px; }
+
+    footer { padding: 40px 20px; text-align: center; color: var(--white); }
+    .footer-tagline { font-family: 'Montserrat', sans-serif; font-size: 1.2em; font-weight: 400; color: var(--accent-teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
+    .footer-contacts { margin-top: 15px; color: var(--accent-teal); font-size: 0.95em; line-height: 1.6; }
+
+    @media (max-width: 480px) { .articles-grid { grid-template-columns: 1fr; gap: 20px; } }
+  </style>
+</head>
+<body>
+  
+  <header class="page-header">
+    <div class="header-logo-container"><img src="logo.svg" alt="TMS Group Logo" class="header-logo"></div>
+    <div class="page-title-container"><h1 class="page-title" id="headerTitle">News & Articles</h1></div>
+    <div class="header-spacer"></div>
+  </header>
+
+  <main class="main-container">
+      <section id="articlesListView" class="articles-grid">
+        
+        <article class="article-card featured-article" data-article-id="1" data-image-src="cover1.jpg">
+            <div class="card-thumbnail"><img loading="lazy" src="cover1.jpg" alt="Impact on Shipping"></div>
+            <div class="card-text-content">
+                <a class="article-title-link" onclick="showArticle(1)"><h2>Η Κλιματική αλλαγή και οι Επιπτώσεις της στη Ναυτιλία</h2></a>
+                <div class="article-meta">Ιούλιος 2025</div>
+                <p class="article-summary">Η ναυτιλία είναι η «ραχοκοκαλιά» του παγκόσμιου εμπορίου, αφού το περισσότερο από το 80% των αγαθών, διακινείται μέσω θαλάσσης. Η κλιματική αλλαγή, έρχεται όμως να ανατρέψει τα δεδομένα αιώνων...</p>
+                <a onclick="showArticle(1)" class="read-more-btn">Read Full Article →</a>
+                <div class="full-article-content"><p>Η ναυτιλία είναι η «ραχοκοκαλιά» του παγκόσμιου εμπορίου, αφού το περισσότερο από το 80% των αγαθών, διακινείται μέσω θαλάσσης. Η κλιματική αλλαγή, έρχεται όμως να ανατρέψει τα δεδομένα αιώνων, επηρεάζοντας δραματικά τις θαλάσσιες μεταφορές. Από τις αυξανόμενες θερμοκρασίες μέχρι την άνοδο της στάθμης της θάλασσας, και την τήξη των πολικών πάγων, οι αλλαγές στο περιβάλλον έχουν άμεσο και έμμεσο αντίκτυπο, στη ναυτιλιακή βιομηχανία.</p><p>Η αύξηση της θερμοκρασίας του πλανήτη προκαλεί πιο συχνά και πιο έντονα καιρικά φαινόμενα, όπως καταιγίδες, κυκλώνες και τυφώνες. Αυτές οι συνθήκες θέτουν σε κίνδυνο τόσο την ασφάλεια των πληρωμάτων στα πλοία, όσο και την ακεραιότητα των φορτίων και των πλοίων. Οι απρόβλεπτες θαλάσσιες συνθήκες αναγκάζουν τις εταιρείες να επανασχεδιάσουν δρομολόγια, συχνά με αυξημένο κόστος.</p><h3>Άνοδος της στάθμης στα λιμάνια</h3><p>Η συνεχής άνοδος της στάθμης της θάλασσας απειλεί τις λιμενικές υποδομές παγκοσμίως. Πλημμύρες, διάβρωση των ακτών και και καταστροφή εγκαταστάσεων είναι πλέον όλο και πιο συχνές, με αποτέλεσμα την ανάγκη για μεγάλες επενδύσεις σε μέτρα προστασίας και ενίσχυσης των λιμανιών.</p><h3>Νέες Προκλήσεις και Ευκαιρίες</h3><ul><li>Αλλαγές σε ρεύματα και ανέμους</li><li>Νέες θαλάσσιες διαδρομές</li><li>Πράσινη μετάβαση και τεχνολογική καινοτομία</li></ul><h3>Συμπεράσματα</h3><p>Η κλιματική αλλαγή δεν είναι απλώς μια περιβαλλοντική πρόκληση είναι ένας παράγοντας που διαμορφώνει ήδη το μέλλον της ναυτιλίας. Η προσαρμογή δεν είναι επιλογή, αλλά αναγκαιότητα. Η μετάβαση προς μια βιώσιμη και ανθεκτική και τεχνολογικά εξοπλισμένη ναυτιλία μπορεί να αποτελέσει εκτός από αντιμετώπιση της περιβαλλοντικής κρίσης και μια νέα σελίδα στην ναυτιλιακή βιομηχανία.</p></div>
+            </div>
+        </article>
+        
+        <article class="article-card" data-article-id="2" data-image-src="cover2.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover2.jpg" alt="Smart Port"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(2)"><h2>Η Ψηφιακή Μεταμόρφωση των Λιμένων: Smart Ports</h2></a><div class="article-meta">Ιούνιος 2025</div><p class="article-summary">Η τεχνολογία IoT και η Τεχνητή Νοημοσύνη αλλάζουν ριζικά τον τρόπο λειτουργίας των λιμένων...</p><a onclick="showArticle(2)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="3" data-image-src="cover3.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover3.jpg" alt="Cybersecurity Shield"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(3)"><h2>Ασφάλεια στον Κυβερνοχώρο: Προστατεύοντας τα Πλοία</h2></a><div class="article-meta">Μάιος 2025</div><p class="article-summary">Καθώς τα πλοία γίνονται πιο συνδεδεμένα, οι κίνδυνοι από κυβερνοεπιθέσεις αυξάνονται...</p><a onclick="showArticle(3)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="4" data-image-src="cover4.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover4.jpg" alt="Green fuel ship"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(4)"><h2>Εναλλακτικά Καύσιμα: LNG & Υδρογόνο</h2></a><div class="article-meta">Απρίλιος 2025</div><p class="article-summary">Η απανθρακοποίηση της ναυτιλίας είναι η μεγαλύτερη πρόκληση...</p><a onclick="showArticle(4)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="5" data-image-src="cover5.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover5.jpg" alt="Underwater pipeline"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(5)"><h2>TMS Oil & Gas: Υποθαλάσσιες Επισκευές</h2></a><div class="article-meta">Μάρτιος 2025</div><p class="article-summary">Νέες τεχνικές για την επισκευή αγωγών σε μεγάλα βάθη...</p><a onclick="showArticle(5)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="6" data-image-src="cover6.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover6.jpg" alt="Ship crew"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(6)"><h2>Η Σημασία της Διαχείρισης Πληρωμάτων</h2></a><div class="article-meta">Φεβρουάριος 2025</div><p class="article-summary">Το ανθρώπινο δυναμικό παραμένει ο ακρογωνιαίος λίθος της επιτυχίας...</p><a onclick="showArticle(6)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="7" data-image-src="cover7.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover7.jpg" alt="IMO Regulations document"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(7)"><h2>Νέοι Κανονισμοί IMO 2026</h2></a><div class="article-meta">Ιανουάριος 2025</div><p class="article-summary">Οι επερχόμενες αλλαγές θα επηρεάσουν τη λειτουργία όλων των πλοίων...</p><a onclick="showArticle(7)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="8" data-image-src="cover8.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover8.jpg" alt="Route optimization map"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(8)"><h2>Βελτιστοποίηση Δρομολογίων μέσω AI</h2></a><div class="article-meta">Δεκέμβριος 2024</div><p class="article-summary">Πλατφόρμες που αξιοποιούν την AI για την ανάλυση καιρικών συνθηκών...</p><a onclick="showArticle(8)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="9" data-image-src="cover9.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover9.jpg" alt="Engine room equipment"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(9)"><h2>Total Marine: Παροχή Εξοπλισμού Αιχμής</h2></a><div class="article-meta">Νοέμβριος 2024</div><p class="article-summary">Η Total Marine Services προσφέρει γνήσια ανταλλακτικά και εξοπλισμό OEM...</p><a onclick="showArticle(9)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+        <article class="article-card" data-article-id="10" data-image-src="cover10.jpg"><div class="card-thumbnail"><img loading="lazy" src="cover10.jpg" alt="TMS Group historical photo"></div><div class="card-text-content"><a class="article-title-link" onclick="showArticle(10)"><h2>Από ένα Πλοίο σε Παγκόσμιο Όμιλο</h2></a><div class="article-meta">Οκτώβριος 2024</div><p class="article-summary">Κοιτάζοντας πίσω στο ταξίδι μας από το 1991, γιορτάζουμε τις αξίες μας...</p><a onclick="showArticle(10)" class="read-more-btn">Read Full Article →</a><div class="full-article-content"><p>Placeholder text...</p></div></div></article>
+      </section>
+
+      <section id="singleArticleView" style="display: none;"></section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+        <div class="footer-tagline">Rising Above the Ordinary</div>
+        © 2025 TMS Group. All rights reserved.<br>
+        <div class="footer-contacts">Cyprus: cyprus@tmsgroupeu.com | Greece: greece@tmsgroupeu.com | Egypt: egypt@tmsgroupeu.com</div>
+    </div>
+  </footer>
+
+  <script>
+      document.addEventListener('scroll', () => {
+          const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const scrollTop = window.scrollY;
+          const scrollPercent = (scrollTop / scrollableHeight);
+          const color1 = [0, 31, 63], color2 = [0, 97, 175], color3 = [43, 235, 203];
+          let startColor, endColor, localPercent;
+          if (scrollPercent < 0.5) { startColor = color1; endColor = color2; localPercent = scrollPercent * 2; }
+          else { startColor = color2; endColor = color3; localPercent = (scrollPercent - 0.5) * 2; }
+          const r1 = Math.round(startColor[0] + (endColor[0] - startColor[0]) * localPercent);
+          const g1 = Math.round(startColor[1] + (endColor[1] - startColor[1]) * localPercent);
+          const b1 = Math.round(startColor[2] + (endColor[2] - startColor[2]) * localPercent);
+          document.documentElement.style.setProperty('--grad-color-1', `rgb(${r1}, ${g1}, ${b1})`);
+          const r2 = Math.round(endColor[0] - (endColor[0] - startColor[0]) * (1 - localPercent));
+          const g2 = Math.round(endColor[1] - (endColor[1] - startColor[1]) * (1 - localPercent));
+          const b2 = Math.round(endColor[2] - (endColor[2] - startColor[2]) * (1 - localPercent));
+          document.documentElement.style.setProperty('--grad-color-2', `rgb(${r2}, ${g2}, ${b2})`);
+      });
+
+      const articlesListView = document.getElementById('articlesListView');
+      const singleArticleView = document.getElementById('singleArticleView');
+      const headerTitle = document.getElementById('headerTitle');
+      const mainContainer = document.querySelector('.main-container');
+
+      function showArticle(articleId) {
+          const articleSource = articlesListView.querySelector(`.article-card[data-article-id='${articleId}']`);
+          if (articleSource) {
+              const titleText = articleSource.querySelector('h2').textContent;
+              const metaHTML = articleSource.querySelector('.article-meta').innerHTML;
+              const contentHTML = articleSource.querySelector('.full-article-content').innerHTML;
+              const imageSrc = articleSource.getAttribute('data-image-src');
+              headerTitle.textContent = titleText;
+              
+              mainContainer.innerHTML = ''; // Clear the grid
+              singleArticleView.innerHTML = `
+                  <div class="article-title-full">${titleText}</div>
+                  <div class="article-meta">${metaHTML}</div>
+                  <img src="${imageSrc}" loading="lazy" alt="${titleText}" class="full-article-hero">
+                  <div class="full-article-body">${contentHTML}</div>
+                  <a onclick="showList()" class="back-to-list">← Back to All Articles</a>
+              `;
+              mainContainer.appendChild(singleArticleView);
+              singleArticleView.style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'instant' });
+          }
+      }
+      function showList() {
+          headerTitle.textContent = 'News & Articles';
+          mainContainer.innerHTML = ''; // Clear single view
+          mainContainer.appendChild(articlesListView); // Put the grid back
+          articlesListView.style.display = 'grid';
+          singleArticleView.innerHTML = '';
+          singleArticleView.style.display = 'none';
+      }
+  </script>
+</body>
+</html>
